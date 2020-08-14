@@ -1,0 +1,2 @@
+pyside2~=5.15.0
+pdfminer.six==20200726
