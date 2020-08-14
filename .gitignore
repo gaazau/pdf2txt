@@ -1,4 +1,4 @@
-.idea
-venv
-__pycache__
-static
+.idea/
+venv/
+static/
+*.pyc
