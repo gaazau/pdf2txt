@@ -34,8 +34,7 @@ class MainWindow():
             self.pdf_worker.output_image_to_file()
 
 
-if __name__ == '__main__':
-    app = QApplication([])
-    window = MainWindow()
-    window.ui.show()
-    app.exec_()
+app = QApplication([])
+window = MainWindow()
+window.ui.show()
+app.exec_()
