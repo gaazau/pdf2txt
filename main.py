@@ -1,33 +1,37 @@
-from PySide2.QtWidgets import QApplication, QMessageBox, QFileDialog
+from PySide2.QtWidgets import QApplication, QFileDialog, QDialog
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import Signal, Slot
+from PySide2.QtCore import Slot
 
 from pdf2txt import Pdf2Txt
 
 
 class MainWindow():
     def __init__(self):
-        # 从文件中加载UI定义
-
-        # 从 UI 定义中动态 创建一个相应的窗口对象
-        # 注意：里面的控件对象也成为窗口对象的属性了
-        # 比如 self.ui.button , self.ui.textEdit
         self.ui = QUiLoader().load('ui/pdf2txt.ui')
-
         self.ui.openFileBtn.clicked.connect(self.open_file_dialog)
+        self.ui.saveImageBtn.clicked.connect(self.save_image_dialog)
+
+        self.pdf_worker = None
 
     @Slot()
     def open_file_dialog(self):
-        # 生成文件对话框对象
         dialog = QFileDialog()
-        # 设置文件过滤器，这里是任何文件，包括目录噢
-        dialog.setFileMode(QFileDialog.AnyFile)
-        # 设置显示文件的模式，这里是详细模式
-        dialog.setViewMode(QFileDialog.Detail)
-        if dialog.exec_():
+        dialog.setNameFilters(["PDF file (*.pdf)"])
+        dialog.selectNameFilter("PDF file (*.pdf)")
+        if dialog.exec_() == QDialog.Accepted:
             filename_list = dialog.selectedFiles()
-            converter = Pdf2Txt(filename_list[0])
-            self.ui.outPutText.setText(converter.get_text())
+            self.pdf_worker = Pdf2Txt(filename_list[0])
+            self.ui.outPutText.setText(self.pdf_worker.get_text())
+
+    @Slot()
+    def save_image_dialog(self):
+        if not self.pdf_worker:
+            return
+        dialog = QFileDialog()
+        dialog.setFileMode(QFileDialog.DirectoryOnly)
+        if dialog.exec_() == QDialog.Accepted:
+            self.pdf_worker.output_dir = dialog.selectedFiles()[0]
+            self.pdf_worker.output_image_to_file()
 
 
 if __name__ == '__main__':
