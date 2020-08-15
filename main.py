@@ -1,14 +1,17 @@
 import os
 import sys
 
-from PySide2.QtWidgets import QApplication, QFileDialog, QDialog
-from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import Slot
+from PySide2.QtGui import QIcon
+from PySide2.QtUiTools import QUiLoader
+from PySide2.QtWidgets import QApplication
+from PySide2.QtWidgets import QDialog
+from PySide2.QtWidgets import QFileDialog
 
 from pdf2txt import Pdf2Txt
 
 # 是否使用pyintaller构建
-BUILED_BY_PYINTALLER = False
+BUILED_BY_PYINTALLER = True
 
 
 def resource_path(relative_path):
@@ -52,6 +55,7 @@ class MainWindow():
 
 
 app = QApplication([])
+app.setWindowIcon(QIcon('logo.png'))
 window = MainWindow()
 window.ui.show()
 app.exec_()
