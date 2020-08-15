@@ -11,7 +11,7 @@ from PySide2.QtWidgets import QFileDialog
 from pdf2txt import Pdf2Txt
 
 # 是否使用pyintaller构建
-BUILED_BY_PYINTALLER = True
+BUILED_BY_PYINTALLER = False
 
 
 def resource_path(relative_path):
@@ -55,7 +55,7 @@ class MainWindow():
 
 
 app = QApplication([])
-app.setWindowIcon(QIcon('logo.png'))
+app.setWindowIcon(QIcon(resource_path('ui/pdf2txt.ico')))
 window = MainWindow()
 window.ui.show()
 app.exec_()
